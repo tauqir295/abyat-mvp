@@ -12,8 +12,7 @@ import java.util.Map;
  *
  * @author Mohammad Tauqir
  */
-public class BasketballPlayerMatchStatistics extends AbstractPlayerMatchStatistics
-	implements IPlayerMatchStats<EBasketballPosition, EBasketballAction> {
+public class BasketballPlayerMatchStatistics extends AbstractPlayerMatchStatistics implements IPlayerMatchStats<EBasketballPosition, EBasketballAction> {
 
 	private EBasketballPosition player_position;
 	private Map<EBasketballAction, Integer> player_actions;

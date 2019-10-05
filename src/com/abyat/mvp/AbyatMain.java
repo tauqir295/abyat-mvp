@@ -20,7 +20,7 @@ public class AbyatMain {
 
     public static final Map<String, Class> GAMES = new HashMap<>();
 
-    // add implementations to support more sports
+    // add here to support more games
     static {
         GAMES.put("BASKETBALL", Basketball.class);
         GAMES.put("HANDBALL", Handball.class);

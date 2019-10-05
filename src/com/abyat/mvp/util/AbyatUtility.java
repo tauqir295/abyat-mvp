@@ -67,7 +67,7 @@ public class AbyatUtility {
 					"Invalid game name" + gameName);
 		}
 
-		// instantiate selected sport class
+		// instantiate selected game class
 		Class<IGame> gameClass = AbyatMain.GAMES.get(gameName);
 
 		IGame IGame = gameClass.newInstance();

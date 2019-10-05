@@ -13,8 +13,7 @@ import java.util.Map;
  *
  * @author Mohammad Tauqir
  */
-public class HandballPlayerMatchStatistics extends AbstractPlayerMatchStatistics
-	implements IPlayerMatchStats<EHandballPosition, EHandballAction> {
+public class HandballPlayerMatchStatistics extends AbstractPlayerMatchStatistics implements IPlayerMatchStats<EHandballPosition, EHandballAction> {
 	private EHandballPosition player_position;
 	private Map<EHandballAction, Integer> player_actions;
 

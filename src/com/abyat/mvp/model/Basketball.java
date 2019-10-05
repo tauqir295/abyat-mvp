@@ -27,7 +27,6 @@ public class Basketball implements IGame<BasketballPlayerMatchStatistics> {
 		Map<EBasketballAction, Integer> basketballAction =
 				basketballPlayerMatchStatistics.getPlayerActions();
 
-
 		for (EBasketballAction eBasketballAction : basketballAction.keySet()) {
 			rating += position.getPlayerRating(eBasketballAction, basketballAction.get(eBasketballAction));
 		}
