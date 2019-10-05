@@ -51,7 +51,7 @@ public class BasketballPlayerMatchStatistics extends AbstractPlayerMatchStatisti
 		return player_actions;
 	}
 
-	public int getRating() throws Exception {
+	public int getPlayerRating() throws Exception {
 		Class<IGame> gameClass = AbyatMain.GAMES.get("BASKETBALL");
 
 		IGame iGame = gameClass.newInstance();

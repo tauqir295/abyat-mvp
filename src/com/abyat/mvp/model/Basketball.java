@@ -14,44 +14,44 @@ public class Basketball implements IGame<BasketballPlayerMatchStatistics> {
 
 	@Override
 	public int calculateRatingOfPlayer(
-		BasketballPlayerMatchStatistics playerMatchStats) {
+		BasketballPlayerMatchStatistics basketballPlayerMatchStatistics) {
 
 		int rating = 0;
 
-		if (playerMatchStats.isWinningTeam()) {
+		if (basketballPlayerMatchStatistics.isWinningTeam()) {
 			rating += 10;
 		}
 
-		EBasketballPosition position = playerMatchStats.getPlayerPosition();
+		EBasketballPosition position = basketballPlayerMatchStatistics.getPlayerPosition();
 
-		Map<EBasketballAction, Integer> actions =
-			playerMatchStats.getPlayerActions();
+		Map<EBasketballAction, Integer> basketballAction =
+				basketballPlayerMatchStatistics.getPlayerActions();
 
 
-		for (EBasketballAction action : actions.keySet()) {
-			rating += position.getRating(action, actions.get(action));
+		for (EBasketballAction eBasketballAction : basketballAction.keySet()) {
+			rating += position.getPlayerRating(eBasketballAction, basketballAction.get(eBasketballAction));
 		}
 
 		return rating;
 	}
 
 	@Override
-	public int calculateTeamScore(
+	public int calculateEachTeamScore(
 		String teamName,
 		List<BasketballPlayerMatchStatistics> playerMatchStatsList) {
 
 		int score = 0;
 
-		for (BasketballPlayerMatchStatistics playerMatchStats :
+		for (BasketballPlayerMatchStatistics basketballPlayerMatchStatistics :
 				playerMatchStatsList) {
 
 			// calculate score only for team
-			if (!playerMatchStats.getPlayerTeamName().equals(teamName)) {
+			if (!basketballPlayerMatchStatistics.getPlayerTeamName().equals(teamName)) {
 				continue;
 			}
 
 			// total basketball team score calculated on scored points
-			score += playerMatchStats.getPlayerActions().get(
+			score += basketballPlayerMatchStatistics.getPlayerActions().get(
 				EBasketballAction.SCORE);
 		}
 
@@ -59,7 +59,7 @@ public class Basketball implements IGame<BasketballPlayerMatchStatistics> {
 	}
 
 	@Override
-	public Class getPlayerMatchStatsClass() {
+	public Class getPlayerMatchStatisticsClass() {
 		return BasketballPlayerMatchStatistics.class;
 	}
 

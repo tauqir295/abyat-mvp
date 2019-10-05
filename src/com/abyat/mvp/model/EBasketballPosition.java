@@ -11,7 +11,7 @@ public enum EBasketballPosition implements IPosition<EBasketballAction> {
 
 	G("GUARD") {
 		@Override
-		public int getRating(EBasketballAction action, int times) {
+		public int getPlayerRating(EBasketballAction action, int times) {
 			switch (action) {
 				case SCORE:
 					return 2 * times;
@@ -24,7 +24,7 @@ public enum EBasketballPosition implements IPosition<EBasketballAction> {
 	},
 	F("FORWARD") {
 		@Override
-		public int getRating(EBasketballAction action, int times) {
+		public int getPlayerRating(EBasketballAction action, int times) {
 			switch (action) {
 				default:
 					return 2 * times;
@@ -33,21 +33,18 @@ public enum EBasketballPosition implements IPosition<EBasketballAction> {
 	},
 	C("CENTER") {
 		@Override
-		public int getRating(EBasketballAction action, int times) {
+		public int getPlayerRating(EBasketballAction action, int times) {
 			switch (action) {
 				case SCORE:
 					return 2 * times;
 				case ASSIST:
 					return 3 * times;
 				default:
-					return 1 * times;
+					return times;
 			}
 		}
 	};
 
-	private String _brief;
-
-	EBasketballPosition(String brief) {
-		_brief = brief;
+	EBasketballPosition(String role) {
 	}
 }

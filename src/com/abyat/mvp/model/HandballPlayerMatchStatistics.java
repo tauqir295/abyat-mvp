@@ -15,7 +15,6 @@ import java.util.Map;
  */
 public class HandballPlayerMatchStatistics extends AbstractPlayerMatchStatistics
 	implements IPlayerMatchStats<EHandballPosition, EHandballAction> {
-
 	private EHandballPosition player_position;
 	private Map<EHandballAction, Integer> player_actions;
 
@@ -35,7 +34,7 @@ public class HandballPlayerMatchStatistics extends AbstractPlayerMatchStatistics
 
 		player_position = EHandballPosition.valueOf(statsArray[4]);
 
-		player_actions = new HashMap<EHandballAction, Integer>();
+		player_actions = new HashMap<>();
 
 		player_actions.put(
 			EHandballAction.GOAL_MADE, Integer.parseInt(statsArray[5]));
@@ -53,7 +52,7 @@ public class HandballPlayerMatchStatistics extends AbstractPlayerMatchStatistics
 		return player_actions;
 	}
 
-	public int getRating() throws Exception {
+	public int getPlayerRating() throws Exception {
 		Class<IGame> gameClass = AbyatMain.GAMES.get("HANDBALL");
 
 		IGame iGame = gameClass.newInstance();

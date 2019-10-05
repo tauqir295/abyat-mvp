@@ -1,20 +1,19 @@
 package com.abyat.mvp.interfaces;
 
 /**
- * Player's position, to be implemented for the concrete sport.
+ * Player position, to be implemented for the concrete game.
  *
  * @author Mohammad Tauqir
  */
 public interface IPosition<A extends IAction> {
 
 	/**
-	 * Calculates player's rating based on player's position, action and
-	 * action times.
+	 * Calculates player rating based on player position, action and action times.
 	 *
-	 * @param action Player's action
+	 * @param action Player action
 	 * @param times Times repeated
 	 *
-	 * @return Action rating
+	 * @return rating
 	 */
-	public int getRating(A action, int times);
+	public int getPlayerRating(A action, int times);
 }

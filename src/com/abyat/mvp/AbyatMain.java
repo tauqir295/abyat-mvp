@@ -20,7 +20,7 @@ public class AbyatMain {
 
     public static final Map<String, Class> GAMES = new HashMap<>();
 
-    // add more implementations to support more sports
+    // add implementations to support more sports
     static {
         GAMES.put("BASKETBALL", Basketball.class);
         GAMES.put("HANDBALL", Handball.class);
@@ -28,7 +28,7 @@ public class AbyatMain {
 
     public static void main(String[] args) throws Exception {
 
-        List<IPlayerMatchStats> playerMatchStatsList = new ArrayList<>();
+        List<IPlayerMatchStats> iPlayerMatchStats = new ArrayList<>();
         try (Stream<Path> filePathStream = Files.walk(Paths.get("E:\\IdeaProjects\\abyat-mvp\\sample_data"))) {
             filePathStream.forEach(filePath -> {
                 if (Files.isRegularFile(filePath)) {
@@ -36,7 +36,7 @@ public class AbyatMain {
 
                     File file = filePath.toFile();
                     try {
-                        playerMatchStatsList.addAll(AbyatUtility.readMatchStats(new FileInputStream(file)));
+                        iPlayerMatchStats.addAll(AbyatUtility.readMatchStats(new FileInputStream(file)));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -45,6 +45,6 @@ public class AbyatMain {
         }
 
         // print Most valuable player
-        System.out.println( "Most valuable player " + AbyatUtility.getMVPNickName(playerMatchStatsList));
+        System.out.println( "Most valuable player " + AbyatUtility.getMVPNickName(iPlayerMatchStats));
     }
 }

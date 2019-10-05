@@ -13,35 +13,34 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * MVP utility methods.
+ *  Utility class.
  *
  * @author Mohammad Tauqir
  */
 public class AbyatUtility {
 
 	/**
-	 * Get MVP nickname based on the players statistics.
+	 * Get MVP nickname based on the player's statistics.
 	 *
-	 * @param IPlayerMatchStatsList Players statistics list.
+	 * @param playerMatchStatsList Player's statistics .
 	 * @return MVP nickname
-	 * @throws Exception
+	 * @throws Exception :
 	 */
-	public static String getMVPNickName(
-		List<IPlayerMatchStats> IPlayerMatchStatsList) throws Exception {
+	public static String getMVPNickName(List<IPlayerMatchStats> playerMatchStatsList) throws Exception {
 
-		Map<String, Integer> playerRatings = new HashMap<>();
+		Map<String, Integer> playerRatingsMap = new HashMap<>();
 
 		// calculate ratings for each player(assuming that nicknames are unique)
-		for (IPlayerMatchStats IPlayerMatchStats : IPlayerMatchStatsList) {
-			int rating = playerRatings.getOrDefault(IPlayerMatchStats.getPlayerNickName(), 0);
+		for (IPlayerMatchStats playerMatchStats : playerMatchStatsList) {
+			int rating = playerRatingsMap.getOrDefault(playerMatchStats.getPlayerNickName(), 0);
 
-			rating += IPlayerMatchStats.getRating();
+			rating += playerMatchStats.getPlayerRating();
 
-			playerRatings.put(IPlayerMatchStats.getPlayerNickName(), rating);
+			playerRatingsMap.put(playerMatchStats.getPlayerNickName(), rating);
 		}
 
 		// get MVP entry this the highest rating
-		Map.Entry<String, Integer> mvpEntry = playerRatings.entrySet().stream()
+		Map.Entry<String, Integer> mvpEntry = playerRatingsMap.entrySet().stream()
 			.sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
 			.limit(1).findFirst().get();
 
@@ -49,42 +48,38 @@ public class AbyatUtility {
 	}
 
 	/**
-	 * Reads match statistics from the specified input stream.
+	 *  match statistics from the via input stream.
 	 *
 	 * @param inputStream Input stream to read statistics from.
-	 * @return List of players statistics
-	 * @throws Exception in case of unsupported sport name, incorrect format,
-	 * or i/o error.
+	 * @return players statistics
+	 * @throws Exception for unsupported game, incorrect format, or i/o error.
 	 */
-	public static List<IPlayerMatchStats> readMatchStats(InputStream inputStream)
-			throws Exception {
+	public static List<IPlayerMatchStats> readMatchStats(InputStream inputStream) throws Exception {
 
 		List<IPlayerMatchStats> IPlayerMatchStatsList = new ArrayList<>();
 
-		BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(inputStream));
+		BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
 
-		String sportName = bufferedReader.readLine();
+		String gameName = bf.readLine();
 
-		if (sportName.equals("") || ! AbyatMain.GAMES.containsKey(sportName)) {
+		if (gameName.equals("") || ! AbyatMain.GAMES.containsKey(gameName)) {
 			throw new IllegalArgumentException(
-					"Invalid sport name" + sportName);
+					"Invalid game name" + gameName);
 		}
 
 		// instantiate selected sport class
-		Class<IGame> gameClass = AbyatMain.GAMES.get(sportName);
+		Class<IGame> gameClass = AbyatMain.GAMES.get(gameName);
 
 		IGame IGame = gameClass.newInstance();
 
-		Class<IPlayerMatchStats> playerMatchStatsClass =
-				IGame.getPlayerMatchStatsClass();
+		Class<IPlayerMatchStats> playerMatchStatsClass = IGame.getPlayerMatchStatisticsClass();
 
-		String inputString = null;
+		String inputString;
 
 		List<String> nicknames = new ArrayList<>();
 
 		// read players stats line by line, checking nicks uniqueness
-		while ((inputString = bufferedReader.readLine()) != null) {
+		while ((inputString = bf.readLine()) != null) {
 			IPlayerMatchStats IPlayerMatchStats =
 					playerMatchStatsClass.getConstructor(
 							String.class, Boolean.class).newInstance(
@@ -92,7 +87,7 @@ public class AbyatUtility {
 
 			if (nicknames.contains(IPlayerMatchStats.getPlayerNickName())) {
 				throw new IllegalStateException(
-						"Players nicks should be unique");
+						"Player's nickname should be unique");
 			}
 
 			nicknames.add(IPlayerMatchStats.getPlayerNickName());
@@ -100,27 +95,24 @@ public class AbyatUtility {
 			IPlayerMatchStatsList.add(IPlayerMatchStats);
 		}
 
-		Map<String, Integer> teamPoints = new HashMap<>();
+		Map<String, Integer> teamPointsMap = new HashMap<>();
 
 		// calculate teams scores to know which team won the match
 		for (IPlayerMatchStats IPlayerMatchStats : IPlayerMatchStatsList) {
-			if (teamPoints.containsKey(IPlayerMatchStats.getPlayerTeamName())) {
+			if (teamPointsMap.containsKey(IPlayerMatchStats.getPlayerTeamName())) {
 				continue;
 			}
 
-			teamPoints.put(
-					IPlayerMatchStats.getPlayerTeamName(),
-					IGame.calculateTeamScore(
-							IPlayerMatchStats.getPlayerTeamName(), IPlayerMatchStatsList));
+			teamPointsMap.put(IPlayerMatchStats.getPlayerTeamName(),IGame.calculateEachTeamScore(IPlayerMatchStats.getPlayerTeamName(), IPlayerMatchStatsList));
 		}
 
 		// get the winner team and assign corresponding player's property
-		Map.Entry<String, Integer> teamWon = teamPoints.entrySet().stream()
+		Map.Entry<String, Integer> teamWonEntry = teamPointsMap.entrySet().stream()
 				.sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
 				.limit(1).findFirst().get();
 
 		for (IPlayerMatchStats IPlayerMatchStats : IPlayerMatchStatsList) {
-			if (teamWon.getValue().equals(IPlayerMatchStats.getPlayerTeamName())) {
+			if (teamWonEntry.getValue().equals(IPlayerMatchStats.getPlayerTeamName())) {
 				IPlayerMatchStats.setWinningTeam(true);
 			}
 		}

@@ -13,31 +13,27 @@ import java.util.Map;
 public class Handball implements IGame<HandballPlayerMatchStatistics> {
 
 	@Override
-	public int calculateRatingOfPlayer(
-		HandballPlayerMatchStatistics playerMatchStats) {
+	public int calculateRatingOfPlayer(HandballPlayerMatchStatistics handballPlayerMatchStatistics) {
 
 		int rating = 0;
 
-		if (playerMatchStats.isWinningTeam()) {
+		if (handballPlayerMatchStatistics.isWinningTeam()) {
 			rating += 10;
 		}
 
-		EHandballPosition position = playerMatchStats.getPlayerPosition();
+		EHandballPosition playerPosition = handballPlayerMatchStatistics.getPlayerPosition();
 
-		Map<EHandballAction, Integer> actions =
-			playerMatchStats.getPlayerActions();
+		Map<EHandballAction, Integer> actions = handballPlayerMatchStatistics.getPlayerActions();
 
 		for (EHandballAction action : actions.keySet()) {
-			rating += position.getRating(action, actions.get(action));
+			rating += playerPosition.getPlayerRating(action, actions.get(action));
 		}
 
 		return rating;
 	}
 
 	@Override
-	public int calculateTeamScore(
-		String teamName,
-		List<HandballPlayerMatchStatistics> playerMatchStatsList) {
+	public int calculateEachTeamScore(String teamName, List<HandballPlayerMatchStatistics> playerMatchStatsList) {
 
 		int teamScore = 0;
 
@@ -57,7 +53,7 @@ public class Handball implements IGame<HandballPlayerMatchStatistics> {
 	}
 
 	@Override
-	public Class getPlayerMatchStatsClass() {
+	public Class getPlayerMatchStatisticsClass() {
 		return HandballPlayerMatchStatistics.class;
 	}
 

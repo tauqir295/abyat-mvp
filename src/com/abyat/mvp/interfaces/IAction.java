@@ -1,7 +1,7 @@
 package com.abyat.mvp.interfaces;
 
 /**
- * Basic API for a single sport's action.
+ * Base interface for a single game's action.
  *
  * @author Mohammad Tauqir
  */
