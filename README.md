@@ -19,7 +19,9 @@ getMVPNickName of the tournament based on ratings aggregate value
 The solution implements efficient sorting algorithm and can be easily extended by:
 
 adding new Games in Main class and their respective Model class which will inherit iGame class
+
 add enum class for position of new game which will implement IPosition
+
 add MatchStatistics class for respective new game and implement it with AbstractPlayerMatchStatistics
 
 The rest of the application should work without changes.
